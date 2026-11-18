@@ -399,6 +399,57 @@
         <input type="text" id="f_expNotes">
       </div>
 
+      <!-- Previous job (all optional — first-job applicants skip it) -->
+      <div class="field" data-field="prevEmployer">
+        <label class="flabel" for="f_prevEmployer"><span data-i18n="prevEmployer">Previous employer</span> <span class="hint" data-i18n="optional">(optional)</span></label>
+        <input type="text" id="f_prevEmployer">
+      </div>
+      <div class="field" data-field="prevTitle">
+        <label class="flabel" for="f_prevTitle"><span data-i18n="prevTitle">Your job title</span> <span class="hint" data-i18n="optional">(optional)</span></label>
+        <input type="text" id="f_prevTitle">
+      </div>
+      <div class="field" data-field="prevDuration">
+        <label class="flabel" for="f_prevDuration"><span data-i18n="prevDuration">How long did you work there?</span> <span class="hint" data-i18n="optional">(optional)</span></label>
+        <input type="text" id="f_prevDuration">
+      </div>
+      <div class="field" data-field="prevDuties">
+        <label class="flabel" for="f_prevDuties"><span data-i18n="prevDuties">What did you do there?</span> <span class="hint" data-i18n="optional">(optional)</span></label>
+        <textarea id="f_prevDuties" rows="3"></textarea>
+      </div>
+
+    </div>
+    <div class="card">
+
+      <!-- References -->
+      <div class="field" data-field="ref1Name">
+        <label class="flabel" for="f_ref1Name"><span data-i18n="ref1Name">Reference 1 — name</span> <span class="req">*</span></label>
+        <input type="text" id="f_ref1Name">
+        <div class="err-msg" data-i18n="errRequired">This field is required.</div>
+      </div>
+      <div class="field" data-field="ref1Phone">
+        <label class="flabel" for="f_ref1Phone"><span data-i18n="ref1Phone">Reference 1 — phone</span> <span class="req">*</span></label>
+        <input type="tel" id="f_ref1Phone" inputmode="tel">
+        <div class="err-msg" data-i18n="errPhone">Please enter a valid phone number (at least 10 digits).</div>
+      </div>
+      <div class="field" data-field="ref1Relation">
+        <label class="flabel" for="f_ref1Relation"><span data-i18n="ref1Relation">Reference 1 — relationship</span> <span class="req">*</span></label>
+        <input type="text" id="f_ref1Relation">
+        <div class="err-msg" data-i18n="errRequired">This field is required.</div>
+      </div>
+      <div class="field" data-field="ref2Name">
+        <label class="flabel" for="f_ref2Name"><span data-i18n="ref2Name">Reference 2 — name</span> <span class="hint" data-i18n="optional">(optional)</span></label>
+        <input type="text" id="f_ref2Name">
+      </div>
+      <div class="field" data-field="ref2Phone">
+        <label class="flabel" for="f_ref2Phone"><span data-i18n="ref2Phone">Reference 2 — phone</span> <span class="hint" data-i18n="optional">(optional)</span></label>
+        <input type="tel" id="f_ref2Phone" inputmode="tel">
+        <div class="err-msg" data-i18n="errPhone">Please enter a valid phone number (at least 10 digits).</div>
+      </div>
+      <div class="field" data-field="ref2Relation">
+        <label class="flabel" for="f_ref2Relation"><span data-i18n="ref2Relation">Reference 2 — relationship</span> <span class="hint" data-i18n="optional">(optional)</span></label>
+        <input type="text" id="f_ref2Relation">
+      </div>
+
     </div>
     <div class="card">
 
@@ -501,6 +552,16 @@ const I18N = {
     experience: "Moving / packing / warehouse experience",
     expNone: "None", expSome: "Some", expExperienced: "Experienced",
     expNotes: "Tell us briefly",
+    prevEmployer: "Previous employer",
+    prevTitle: "Your job title",
+    prevDuration: "How long did you work there?",
+    prevDuties: "What did you do there?",
+    ref1Name: "Reference 1 — name",
+    ref1Phone: "Reference 1 — phone",
+    ref1Relation: "Reference 1 — relationship",
+    ref2Name: "Reference 2 — name",
+    ref2Phone: "Reference 2 — phone",
+    ref2Relation: "Reference 2 — relationship",
     scheduleOK: "Can you work Monday–Friday, 8:00 AM–4:00 PM?",
     startDate: "Earliest date you can start",
     referral: "How did you hear about us?",
@@ -538,6 +599,16 @@ const I18N = {
     experience: "Experiencia en mudanzas / empaque / almacén",
     expNone: "Ninguna", expSome: "Algo", expExperienced: "Con experiencia",
     expNotes: "Cuéntenos brevemente",
+    prevEmployer: "Empleador anterior",
+    prevTitle: "Tu puesto",
+    prevDuration: "¿Cuánto tiempo trabajaste ahí?",
+    prevDuties: "¿Qué hacías ahí?",
+    ref1Name: "Referencia 1 — nombre",
+    ref1Phone: "Referencia 1 — teléfono",
+    ref1Relation: "Referencia 1 — relación",
+    ref2Name: "Referencia 2 — nombre",
+    ref2Phone: "Referencia 2 — teléfono",
+    ref2Relation: "Referencia 2 — relación",
     scheduleOK: "¿Puede trabajar de lunes a viernes, 8:00 AM–4:00 PM?",
     startDate: "Fecha más temprana en que puede empezar",
     referral: "¿Cómo se enteró de nosotros?",
@@ -593,7 +664,7 @@ document.querySelectorAll(".seg").forEach(function (seg) {
 function fieldWrap(name) { return document.querySelector('[data-field="' + name + '"]'); }
 function setInvalid(name, bad) { const w = fieldWrap(name); if (w) w.classList.toggle("invalid", !!bad); }
 function clearInvalid(name) { setInvalid(name, false); }
-["f_name", "f_phone", "f_email", "f_city"].forEach(function (id) {
+["f_name", "f_phone", "f_email", "f_city", "f_ref1Name", "f_ref1Phone", "f_ref1Relation", "f_ref2Phone"].forEach(function (id) {
   const el = document.getElementById(id);
   el.addEventListener("input", function () { clearInvalid(el.id.replace("f_", "")); });
 });
@@ -609,6 +680,10 @@ function validate(p) {
   if (!p.age18) fail("age18");
   if (!p.workAuth) fail("workAuth");
   if (!p.license) fail("license");
+  if (!p.ref1Name) fail("ref1Name");
+  if (p.ref1Phone.replace(/\D/g, "").length < 10) fail("ref1Phone");
+  if (!p.ref1Relation) fail("ref1Relation");
+  if ((p.ref2Name || p.ref2Phone || p.ref2Relation) && p.ref2Phone.replace(/\D/g, "").length < 10) fail("ref2Phone");
   if (!p.scheduleOK) fail("scheduleOK");
   if (!document.getElementById("f_cert").checked) fail("cert");
   if (firstBad) {
@@ -637,6 +712,16 @@ function collect() {
     startDate: document.getElementById("f_start").value,
     referralSource: document.getElementById("f_ref").value,
     notes: document.getElementById("f_notes").value.trim(),
+    prevEmployer: document.getElementById("f_prevEmployer").value.trim(),
+    prevTitle: document.getElementById("f_prevTitle").value.trim(),
+    prevDuration: document.getElementById("f_prevDuration").value.trim(),
+    prevDuties: document.getElementById("f_prevDuties").value.trim(),
+    ref1Name: document.getElementById("f_ref1Name").value.trim(),
+    ref1Phone: document.getElementById("f_ref1Phone").value.trim(),
+    ref1Relation: document.getElementById("f_ref1Relation").value.trim(),
+    ref2Name: document.getElementById("f_ref2Name").value.trim(),
+    ref2Phone: document.getElementById("f_ref2Phone").value.trim(),
+    ref2Relation: document.getElementById("f_ref2Relation").value.trim(),
     company_website: document.getElementById("company_website").value
   };
 }
