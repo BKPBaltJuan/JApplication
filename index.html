@@ -273,6 +273,20 @@
     letter-spacing:.04em; color:var(--ok);
   }
   .thanks .callline a{color:var(--navy);}
+  .thanks .video-caption{
+    font-family:var(--condensed); text-transform:uppercase;
+    letter-spacing:.04em; font-weight:700; color:var(--ink);
+    margin:16px auto 8px;
+  }
+  .thanks .video-wrap{
+    position:relative; padding-top:56.25%;
+    border-radius:12px; overflow:hidden; background:#000;
+    margin:0 auto 14px; max-width:420px;
+  }
+  .thanks .video-wrap iframe{
+    position:absolute; top:0; left:0;
+    width:100%; height:100%; border:0;
+  }
 
   /* Phone compaction, mirroring the reference's small-screen
      tightening. */
@@ -545,6 +559,8 @@
     <img src="logo.jpg" alt="Blue Kangaroo Packoutz">
     <h2 data-i18n="thanksTitle">Application received</h2>
     <p data-i18n="thanksBody">Thank you for applying. We review every application, and if your experience fits an open position, we will call or text you to talk about next steps.</p>
+    <p class="video-caption" data-i18n="thanksVideoCaption">See what we do</p>
+    <div class="video-wrap"><iframe id="thanksVideo" data-src="https://player.vimeo.com/video/1109410520?badge=0&autopause=0&player_id=0&app_id=58479" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen title="Blue Kangaroo Packoutz: Our Proven Process"></iframe></div>
     <p class="callline"><span data-i18n="thanksCall">Need to reach us?</span> <a href="tel:+14434718900">443-471-8900</a></p>
   </div>
 
@@ -611,6 +627,7 @@ const I18N = {
     errBanner: "Something went wrong and your application was not sent. Please try again, or call us at 443-471-8900.",
     thanksTitle: "Application received",
     thanksBody: "Thank you for applying. We review every application, and if your experience fits an open position, we will call or text you to talk about next steps.",
+    thanksVideoCaption: "See what we do",
     thanksCall: "Need to reach us?",
     footerProp: "This website is the property of Maxwell Enterprises Corp, LLC."
   },
@@ -659,6 +676,7 @@ const I18N = {
     errBanner: "Algo salió mal y su solicitud no se envió. Inténtelo de nuevo, o llámenos al 443-471-8900.",
     thanksTitle: "Solicitud recibida",
     thanksBody: "Gracias por su solicitud. Revisamos cada solicitud y, si su experiencia encaja con un puesto disponible, lo llamaremos o le enviaremos un mensaje de texto para hablar de los próximos pasos.",
+    thanksVideoCaption: "Mira lo que hacemos",
     thanksCall: "¿Necesita contactarnos?",
     footerProp: "Este sitio web es propiedad de Maxwell Enterprises Corp, LLC."
   }
@@ -763,6 +781,8 @@ function collect() {
 
 function showThanks() {
   document.getElementById("appForm").hidden = true;
+  const v = document.getElementById("thanksVideo");
+  if (v && !v.src) { v.src = v.getAttribute("data-src"); }
   const t = document.getElementById("thanksCard");
   t.hidden = false;
   t.scrollIntoView({ behavior: "smooth", block: "center" });
