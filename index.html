@@ -107,6 +107,7 @@
   /* Thank-you */
   .thanks{text-align:center; padding:34px 18px 30px;}
   .thanks img{width:110px; height:110px; object-fit:contain;}
+  .thanks img.full-logo{width:min(440px,92%); height:auto; display:block; margin:0 auto;}
   .thanks h2{color:var(--ok); font-size:25px; margin:14px 0 8px;}
   .thanks p{color:var(--ink-soft); margin:0 auto 10px; max-width:420px;}
   .thanks .callline{font-weight:700; color:var(--ink);}
@@ -595,7 +596,7 @@
 
   <!-- Thank-you screen -->
   <div class="card thanks" id="thanksCard" hidden>
-    <img src="logo.jpg" alt="Blue Kangaroo Packoutz Baltimore & Metro D.C.">
+    <img class="full-logo" src="logo-full.jpg" alt="Blue Kangaroo Packoutz Baltimore & Metro D.C.">
     <h2 data-i18n="thanksTitle">Application received</h2>
     <p data-i18n="thanksBody">Thank you for applying. We review every application, and if your experience fits an open position, we will call or text you to talk about next steps.</p>
     <p class="video-caption" data-i18n="thanksVideoCaption">See what we do</p>
