@@ -205,6 +205,24 @@
   }
   .field:last-child{margin-bottom:0; padding-bottom:0; border-bottom:0;}
 
+  /* Question group: a primary question and its follow-up read as
+     one two-part question. The group carries the hairline divider
+     that separates it from the next field; inside, the two fields
+     sit closer together with no divider between them, and the
+     follow-up is indented under a soft left rule with a slightly
+     smaller label so it reads as subordinate. */
+  .qgroup{
+    margin-bottom:16px; padding-bottom:16px;
+    border-bottom:1px solid var(--line);
+  }
+  .qgroup .field{border-bottom:0; margin-bottom:0; padding-bottom:0;}
+  .qgroup .field:first-child{margin-bottom:10px;}
+  .qgroup .field.followup{
+    margin-left:2px; padding-left:14px;
+    border-left:3px solid var(--accent-soft);
+  }
+  .qgroup .field.followup label.flabel{font-size:12px;}
+
   /* Fields: small labels above tall, rounded, grey-blue filled
      inputs, matching the reference. */
   label.flabel{font-size:13px; font-weight:600; letter-spacing:.02em; margin-bottom:6px;}
@@ -275,6 +293,7 @@
     .intro h1{font-size:44px;}
     .card{padding:22px 24px;}
     .field{max-width:760px;}
+    .qgroup{max-width:760px;}
     .submit-bar #submitBtn{max-width:560px; display:block; margin-left:auto; margin-right:auto;}
   }
   /* Print: sticky bars print as plain static blocks. */
@@ -453,7 +472,8 @@
     </div>
     <div class="card">
 
-      <!-- 10. Schedule -->
+      <!-- 10. Schedule (+ 10b grouped as its follow-up) -->
+      <div class="qgroup">
       <div class="field" data-field="scheduleOK">
         <label class="flabel"><span data-i18n="scheduleOK">Can you work Monday–Friday, 8:00 AM–4:00 PM?</span> <span class="req">*</span></label>
         <div class="seg" data-seg="scheduleOK">
@@ -463,14 +483,15 @@
         <div class="err-msg" data-i18n="errRequired">This field is required.</div>
       </div>
 
-      <!-- 10b. Schedule flexibility -->
-      <div class="field" data-field="flexIssue">
+      <!-- 10b. Schedule flexibility — follow-up to 10 -->
+      <div class="field followup" data-field="flexIssue">
         <label class="flabel"><span data-i18n="flexIssue">Some jobs require an early arrival or longer-distance travel, which may occasionally extend your workday beyond 3:00–4:00 PM, depending on the nature of the job or emergency calls. Would this be an issue for you?</span> <span class="req">*</span></label>
         <div class="seg" data-seg="flexIssue">
           <button type="button" data-val="Yes" data-i18n="yes">Yes</button>
           <button type="button" data-val="No" data-i18n="no">No</button>
         </div>
         <div class="err-msg" data-i18n="errRequired">This field is required.</div>
+      </div>
       </div>
 
       <!-- 11. Start date -->
