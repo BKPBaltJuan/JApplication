@@ -463,6 +463,16 @@
         <div class="err-msg" data-i18n="errRequired">This field is required.</div>
       </div>
 
+      <!-- 10b. Schedule flexibility -->
+      <div class="field" data-field="flexIssue">
+        <label class="flabel"><span data-i18n="flexIssue">Some jobs require an early arrival or longer-distance travel, which may occasionally extend your workday beyond 3:00–4:00 PM, depending on the nature of the job or emergency calls. Would this be an issue for you?</span> <span class="req">*</span></label>
+        <div class="seg" data-seg="flexIssue">
+          <button type="button" data-val="Yes" data-i18n="yes">Yes</button>
+          <button type="button" data-val="No" data-i18n="no">No</button>
+        </div>
+        <div class="err-msg" data-i18n="errRequired">This field is required.</div>
+      </div>
+
       <!-- 11. Start date -->
       <div class="field" data-field="startDate">
         <label class="flabel" for="f_start"><span data-i18n="startDate">Earliest date you can start</span> <span class="hint" data-i18n="optional">(optional)</span></label>
@@ -563,6 +573,7 @@ const I18N = {
     ref2Phone: "Reference 2 — phone",
     ref2Relation: "Reference 2 — relationship",
     scheduleOK: "Can you work Monday–Friday, 8:00 AM–4:00 PM?",
+    flexIssue: "Some jobs require an early arrival or longer-distance travel, which may occasionally extend your workday beyond 3:00–4:00 PM, depending on the nature of the job or emergency calls. Would this be an issue for you?",
     startDate: "Earliest date you can start",
     referral: "How did you hear about us?",
     refFlyer: "Flyer", refEmployee: "Someone who works here", refOther: "Other",
@@ -610,6 +621,7 @@ const I18N = {
     ref2Phone: "Referencia 2 — teléfono",
     ref2Relation: "Referencia 2 — relación",
     scheduleOK: "¿Puede trabajar de lunes a viernes, 8:00 AM–4:00 PM?",
+    flexIssue: "Algunos trabajos requieren llegar más temprano o viajar distancias más largas, lo que en ocasiones puede extender su jornada más allá de las 3:00–4:00 PM, según la naturaleza del trabajo o las llamadas de emergencia. ¿Sería esto un problema para usted?",
     startDate: "Fecha más temprana en que puede empezar",
     referral: "¿Cómo se enteró de nosotros?",
     refFlyer: "Volante", refEmployee: "Alguien que trabaja aquí", refOther: "Otro",
@@ -633,7 +645,7 @@ const I18N = {
 
 let lang = localStorage.getItem("bk_apply_lang") || "en";
 if (!I18N[lang]) lang = "en";
-const segState = { age18: "", workAuth: "", license: "", forklift: "", scheduleOK: "" };
+const segState = { age18: "", workAuth: "", license: "", forklift: "", scheduleOK: "", flexIssue: "" };
 
 function applyLang() {
   const dict = I18N[lang];
@@ -685,6 +697,7 @@ function validate(p) {
   if (!p.ref1Relation) fail("ref1Relation");
   if ((p.ref2Name || p.ref2Phone || p.ref2Relation) && p.ref2Phone.replace(/\D/g, "").length < 10) fail("ref2Phone");
   if (!p.scheduleOK) fail("scheduleOK");
+  if (!p.flexIssue) fail("flexIssue");
   if (!document.getElementById("f_cert").checked) fail("cert");
   if (firstBad) {
     const w = fieldWrap(firstBad);
@@ -722,6 +735,7 @@ function collect() {
     ref2Name: document.getElementById("f_ref2Name").value.trim(),
     ref2Phone: document.getElementById("f_ref2Phone").value.trim(),
     ref2Relation: document.getElementById("f_ref2Relation").value.trim(),
+    flexIssue: segState.flexIssue,
     company_website: document.getElementById("company_website").value
   };
 }
