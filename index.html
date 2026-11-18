@@ -316,6 +316,44 @@
     header{position:static; box-shadow:none;}
     .submit-bar{position:static; box-shadow:none;}
   }
+
+  /* ============================================================
+     THANK-YOU MODE — after a successful submit, showThanks()
+     adds .thanks-mode to <body> and the thank-you card becomes
+     the whole show: the top bar (with the EN/ES toggle) and the
+     intro block are gone, the backdrop deepens slightly, and
+     the card sits centered in the viewport like a pop-up with
+     a stronger shadow and a gentle entrance. The class is only
+     ever added at runtime, so a reload restores the normal
+     form view with the bar back. No rule here applies without
+     .thanks-mode, so the form view is untouched.
+     ============================================================ */
+  body.thanks-mode{background:#d9e2ec;}
+  @media (prefers-color-scheme: dark){
+    body.thanks-mode{background:#060b11;}
+  }
+  body.thanks-mode header{display:none;}
+  body.thanks-mode .intro{display:none;}
+  body.thanks-mode .wrap{
+    min-height:100dvh; display:flex; flex-direction:column;
+    padding-top:28px; padding-bottom:28px;
+  }
+  body.thanks-mode #thanksCard{
+    margin:auto; width:100%; max-width:640px; align-self:center;
+    padding:44px 30px 40px; border-radius:18px;
+    box-shadow:0 24px 60px rgba(22,40,60,.22),0 4px 14px rgba(22,40,60,.10);
+    animation:thanksIn .45s ease-out both;
+  }
+  @keyframes thanksIn{
+    from{opacity:0; transform:translateY(14px) scale(.97);}
+    to{opacity:1; transform:none;}
+  }
+  @media (prefers-reduced-motion: reduce){
+    body.thanks-mode #thanksCard{animation:none;}
+  }
+  @media (max-width:430px){
+    body.thanks-mode #thanksCard{padding:34px 20px 30px;}
+  }
 </style>
 </head>
 <body>
@@ -781,6 +819,7 @@ function collect() {
 }
 
 function showThanks() {
+  document.body.classList.add("thanks-mode");
   document.getElementById("appForm").hidden = true;
   const v = document.getElementById("thanksVideo");
   if (v && !v.src) { v.src = v.getAttribute("data-src"); }
