@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#16283c">
+<title>Job Application — Blue Kangaroo Packoutz</title>
+<meta name="description" content="Apply to join the Blue Kangaroo Packoutz crew — Baltimore and Metro DC. Starting at $18/hour.">
+<style>
+  :root{
+    --deep:#0068b2; --sky:#00b6ee; --gold:#f2a900;
+    --ink:#1c2b3a; --ink-soft:#5a6b7a; --line:#d7e3ec;
+    --bg:#eef4f9; --card:#ffffff; --fill:#eef3f8;
+    --danger:#c0392b; --ok:#1e7d46;
+  }
+  *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+  html,body{margin:0; padding:0;}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg); color:var(--ink); font-size:16px; line-height:1.45;
+  }
+  .wrap{max-width:640px; margin:0 auto; padding:0 14px 40px;}
+
+  /* Header */
+  header{
+    background:var(--card); border-bottom:3px solid var(--deep);
+    position:sticky; top:0; z-index:20;
+  }
+  .header-inner{
+    max-width:640px; margin:0 auto; padding:10px 14px;
+    display:flex; align-items:center; gap:12px;
+  }
+  .header-inner img{width:52px; height:52px; object-fit:contain; border-radius:8px;}
+  .header-title{flex:1; min-width:0;}
+  .header-title .name{font-weight:800; font-size:19px; color:var(--deep); line-height:1.15;}
+  .header-title .sub{font-size:12.5px; color:var(--ink-soft);}
+  .lang-toggle{display:flex; border:1.5px solid var(--deep); border-radius:999px; overflow:hidden; flex:none;}
+  .lang-toggle button{
+    border:0; background:#fff; color:var(--deep); font-weight:700; font-size:14px;
+    padding:9px 14px; cursor:pointer; min-height:40px;
+  }
+  .lang-toggle button.active{background:var(--deep); color:#fff;}
+
+  /* Intro */
+  .intro{padding:20px 4px 4px;}
+  .intro h1{font-size:26px; margin:0 0 6px; color:var(--deep);}
+  .intro p{margin:0 0 6px; color:var(--ink-soft);}
+  .intro .pay{
+    display:inline-block; margin-top:8px; background:var(--gold); color:#231a00;
+    font-weight:800; padding:7px 14px; border-radius:999px; font-size:15px;
+  }
+  .intro .pos-fixed{margin:12px 0 0; font-weight:800; font-size:17px; color:var(--deep);}
+
+  /* Card + fields */
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:18px 16px 20px; margin-top:16px;
+    box-shadow:0 1px 3px rgba(0,60,110,.06);
+  }
+  .field{margin-bottom:18px;}
+  .field:last-child{margin-bottom:4px;}
+  label.flabel{display:block; font-weight:700; font-size:15.5px; margin-bottom:7px;}
+  label.flabel .req{color:var(--danger);}
+  .hint{font-weight:400; font-size:13px; color:var(--ink-soft);}
+  input[type=text],input[type=tel],input[type=email],input[type=date],select,textarea{
+    width:100%; font-size:16.5px; padding:13px 12px; min-height:52px;
+    border:1.5px solid var(--line); border-radius:10px; background:var(--fill);
+    color:var(--ink); font-family:inherit; appearance:none;
+  }
+  textarea{min-height:84px; resize:vertical;}
+  input:focus,select:focus,textarea:focus{outline:2px solid var(--sky); outline-offset:0; background:#fff; border-color:var(--deep);}
+  .field.invalid input,.field.invalid select,.field.invalid textarea{border-color:var(--danger); background:#fdf1ef;}
+  .field.invalid .seg{outline:2px solid var(--danger); outline-offset:2px; border-radius:12px;}
+  .err-msg{display:none; color:var(--danger); font-size:13.5px; font-weight:600; margin-top:6px;}
+  .field.invalid .err-msg{display:block;}
+
+  /* Segmented Yes/No */
+  .seg{display:flex; gap:10px;}
+  .seg button{
+    flex:1; min-height:52px; font-size:16.5px; font-weight:700; cursor:pointer;
+    border:1.5px solid var(--line); border-radius:10px; background:var(--fill); color:var(--ink);
+    font-family:inherit;
+  }
+  .seg button.selected{background:var(--deep); border-color:var(--deep); color:#fff;}
+
+  /* Certification + submit */
+  .cert{display:flex; gap:12px; align-items:flex-start; cursor:pointer;}
+  .cert input{width:26px; height:26px; flex:none; margin:2px 0 0; accent-color:var(--deep);}
+  .cert span{font-size:14.5px;}
+  .field.invalid .cert span{color:var(--danger);}
+  #submitBtn{
+    width:100%; min-height:58px; margin-top:6px; border:0; border-radius:12px;
+    background:var(--deep); color:#fff; font-size:18px; font-weight:800; cursor:pointer;
+    font-family:inherit;
+  }
+  #submitBtn:disabled{opacity:.6; cursor:wait;}
+  .error-banner{
+    display:none; background:#fdf1ef; border:1.5px solid var(--danger); color:var(--danger);
+    border-radius:12px; padding:14px; font-weight:600; font-size:15px; margin-top:16px;
+  }
+  .error-banner.show{display:block;}
+  .error-banner a{color:var(--danger);}
+
+  /* Honeypot — visually hidden, off-screen */
+  .hp{position:absolute !important; left:-9999px !important; top:-9999px !important; width:1px; height:1px; opacity:0; overflow:hidden;}
+
+  /* Thank-you */
+  .thanks{text-align:center; padding:34px 18px 30px;}
+  .thanks img{width:110px; height:110px; object-fit:contain;}
+  .thanks h2{color:var(--ok); font-size:25px; margin:14px 0 8px;}
+  .thanks p{color:var(--ink-soft); margin:0 auto 10px; max-width:420px;}
+  .thanks .callline{font-weight:700; color:var(--ink);}
+  .thanks .callline a{color:var(--deep); text-decoration:none;}
+
+  footer{max-width:640px; margin:26px auto 0; padding:16px 14px 8px; text-align:center; color:var(--ink-soft); font-size:13px;}
+  footer .terr{font-weight:700; color:var(--deep);}
+  [hidden]{display:none !important;}
+
+  /* ============================================================
+     RESTYLE — reference layout (jobs.bkpbw.com/checklist/), the
+     same pass applied to the Lead Tech Checklist restyle.
+     CSS only: no markup behavior or script changes. Everything
+     above this block is the original stylesheet; the rules below
+     override it by cascade order to move the page from the
+     bright-blue brand theme to the reference's navy/slate look:
+     pale blue-grey page, one centered ~900px column, white cards
+     with hairline borders and dividers, condensed uppercase navy
+     headings, grey-blue filled inputs, navy primary buttons and
+     selected states, a sticky white top bar and a sticky bottom
+     submit bar. Validation, honeypot and thank-you styling above
+     is preserved, only remapped to the new palette.
+     ============================================================ */
+  :root{
+    --deep:#16283c; --sky:#00b6ee; --gold:#dabb30;
+    --ink:#22303c; --ink-soft:#647687; --line:#dde3e9;
+    --bg:#e8edf2; --card:#ffffff; --fill:#edf1f5;
+    --danger:#b3261e; --ok:#1e9e50;
+    --navy:#16283c; --heading:#16283c; --accent-soft:#d7e5f2;
+    /* Local stacks only — the page must work fully offline, so no
+       webfonts. Falls back to plain sans where no condensed face
+       is installed. */
+    --condensed:"Oswald","Archivo Narrow","Arial Narrow",sans-serif;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --deep:#2c4a68; --gold:#dabb30;
+      --ink:#e7eef5; --ink-soft:#9db1c3; --line:#2b4258;
+      --bg:#0c141d; --card:#152231; --fill:#1b2c3e;
+      --danger:#f0766c; --ok:#4cc06c;
+      --navy:#2c4a68; --heading:#d5e5f2; --accent-soft:#17334a;
+    }
+    .lang-toggle button{background:var(--card);}
+    input:focus,select:focus,textarea:focus{background:var(--card);}
+    .field.invalid input,.field.invalid select,.field.invalid textarea{background:#3a2320;}
+    .error-banner{background:#3a2320;}
+  }
+
+  /* One centered column, ~900px, wide empty margins on desktop. */
+  .wrap{max-width:900px; padding:0 20px 48px;}
+  footer{max-width:900px; padding:16px 20px 8px;}
+  footer .terr{color:var(--heading);}
+
+  /* Sticky white top bar: hairline bottom border, subtle shadow,
+     compact logo left, company name + EN/ES toggle right of it. */
+  header{
+    border-bottom:1px solid var(--line);
+    box-shadow:0 1px 6px rgba(22,40,60,.06);
+  }
+  .header-inner{max-width:900px; padding:10px 20px;}
+  .header-inner img{width:auto; height:46px; border-radius:0;}
+  .header-title .name{
+    font-family:var(--condensed); font-size:19px; letter-spacing:.02em;
+    color:var(--heading);
+  }
+  .header-title .sub{color:var(--ink-soft);}
+  .lang-toggle{border:1px solid var(--line); box-shadow:0 1px 3px rgba(22,40,60,.05);}
+  .lang-toggle button{color:var(--navy);}
+  .lang-toggle button.active{background:var(--navy);}
+
+  /* Title block: big condensed uppercase navy H1, grey intro. */
+  .intro{padding:22px 2px 2px;}
+  .intro h1{
+    font-family:var(--condensed); font-weight:700; text-transform:uppercase;
+    letter-spacing:.015em; font-size:38px; line-height:1.05;
+    color:var(--heading); margin:0 0 8px;
+  }
+  .intro .pos-fixed{
+    font-family:var(--condensed); text-transform:uppercase;
+    letter-spacing:.06em; font-size:16px; color:var(--heading);
+  }
+
+  /* Cards: white, 14px radius, hairline border, very subtle
+     shadow, generous gaps. The form's natural groupings each get
+     their own card; fields inside a card are separated by
+     hairline dividers, like the reference's checklist rows. */
+  .card{
+    border:1px solid var(--line); border-radius:14px;
+    box-shadow:0 1px 3px rgba(22,40,60,.05),0 6px 18px rgba(22,40,60,.04);
+    padding:22px; margin-top:0; margin-bottom:24px;
+  }
+  form .card:first-child{margin-top:16px;}
+  .field{
+    margin-bottom:16px; padding-bottom:16px;
+    border-bottom:1px solid var(--line);
+  }
+  .field:last-child{margin-bottom:0; padding-bottom:0; border-bottom:0;}
+
+  /* Fields: small labels above tall, rounded, grey-blue filled
+     inputs, matching the reference. */
+  label.flabel{font-size:13px; font-weight:600; letter-spacing:.02em; margin-bottom:6px;}
+  input[type=text],input[type=tel],input[type=email],input[type=date],select,textarea{
+    border:1px solid var(--line); border-radius:10px; background:var(--fill);
+    padding:13px 14px;
+  }
+  input:focus,select:focus,textarea:focus{
+    outline:none; border-color:var(--navy);
+    box-shadow:0 0 0 3px var(--accent-soft); background:var(--card);
+  }
+
+  /* Segmented Yes/No: condensed uppercase text; selected = solid
+     navy. */
+  .seg button{
+    font-family:var(--condensed); text-transform:uppercase;
+    letter-spacing:.06em; font-size:16px;
+    border:1px solid var(--line); background:var(--fill);
+  }
+  .seg button.selected{background:var(--navy); border-color:var(--navy); color:#fff;}
+
+  /* Certification checkbox picks up the navy accent. */
+  .cert input{accent-color:var(--navy);}
+
+  /* Sticky bottom submit bar: mirrors the reference's bottom
+     action bar — white, hairline top border, always reachable.
+     It sits in the normal flow at the end of the form (sticky,
+     not fixed), so it can never cover the certification
+     checkbox; the wrap's bottom padding adds clearance. */
+  .submit-bar{
+    position:sticky; bottom:0; z-index:10;
+    background:var(--card); border-top:1px solid var(--line);
+    box-shadow:0 -2px 10px rgba(22,40,60,.05);
+    padding:12px 2px calc(12px + env(safe-area-inset-bottom));
+  }
+  #submitBtn{
+    margin-top:0; border-radius:10px; min-height:54px;
+    background:var(--navy); color:#fff;
+    font-family:var(--condensed); text-transform:uppercase;
+    letter-spacing:.07em; font-weight:700; font-size:17px;
+  }
+  .error-banner{margin-top:10px; border:1px solid var(--danger); border-radius:10px;}
+
+  /* Thank-you card keeps the reference card language; its
+     heading picks up the condensed navy face. */
+  .thanks h2{
+    font-family:var(--condensed); text-transform:uppercase;
+    letter-spacing:.04em; color:var(--ok);
+  }
+  .thanks .callline a{color:var(--navy);}
+
+  /* Phone compaction, mirroring the reference's small-screen
+     tightening. */
+  @media (max-width:430px){
+    .wrap{padding:0 14px 40px;}
+    .header-inner{padding:8px 14px;}
+    .header-inner img{height:38px;}
+    .intro h1{font-size:29px;}
+    .card{padding:16px; margin-bottom:18px;}
+    input[type=text],input[type=tel],input[type=email],input[type=date],select{
+      min-height:50px;
+    }
+    .seg button{min-height:50px;}
+  }
+  /* Desktop: roomier cards; fields capped so inputs do not
+     stretch the full 900px, as the reference caps its fields. */
+  @media (min-width:1024px) and (pointer:fine){
+    .intro h1{font-size:44px;}
+    .card{padding:22px 24px;}
+    .field{max-width:760px;}
+    .submit-bar #submitBtn{max-width:560px; display:block; margin-left:auto; margin-right:auto;}
+  }
+  /* Print: sticky bars print as plain static blocks. */
+  @media print{
+    header{position:static; box-shadow:none;}
+    .submit-bar{position:static; box-shadow:none;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <img src="logo.jpg" alt="Blue Kangaroo Packoutz">
+    <div class="header-title">
+      <div class="name">Blue Kangaroo Packoutz™</div>
+      <div class="sub" data-i18n="tagline">Job Application</div>
+    </div>
+    <div class="lang-toggle" role="group" aria-label="Language">
+      <button type="button" id="langEn">EN</button>
+      <button type="button" id="langEs">ES</button>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="intro">
+    <h1 data-i18n="h1">Work with us</h1>
+    <p data-i18n="intro">We pack, move, clean, and store the contents of homes after water, fire, and mold damage — and deliver everything back when the home is ready. Fill out this short application and we will be in touch.</p>
+    <span class="pay" data-i18n="pay">Starting at $18/hour · Mon–Fri, 8:00 AM–4:00 PM</span>
+    <p class="pos-fixed" data-i18n="posFixed">Position: Crew Member</p>
+  </div>
+
+  <form id="appForm" novalidate>
+    <div class="card">
+
+      <!-- 1. Full name -->
+      <div class="field" data-field="name">
+        <label class="flabel" for="f_name"><span data-i18n="name">Full name</span> <span class="req">*</span></label>
+        <input type="text" id="f_name" autocomplete="name">
+        <div class="err-msg" data-i18n="errRequired">This field is required.</div>
+      </div>
+
+      <!-- 2. Phone -->
+      <div class="field" data-field="phone">
+        <label class="flabel" for="f_phone"><span data-i18n="phone">Phone</span> <span class="req">*</span></label>
+        <input type="tel" id="f_phone" autocomplete="tel" inputmode="tel">
+        <div class="err-msg" data-i18n="errPhone">Please enter a valid phone number (at least 10 digits).</div>
+      </div>
+
+      <!-- 3. Email -->
+      <div class="field" data-field="email">
+        <label class="flabel" for="f_email"><span data-i18n="email">Email</span> <span class="hint" data-i18n="optional">(optional)</span></label>
+        <input type="email" id="f_email" autocomplete="email" inputmode="email">
+        <div class="err-msg" data-i18n="errEmail">That email address does not look complete.</div>
+      </div>
+
+      <!-- 4. City -->
+      <div class="field" data-field="city">
+        <label class="flabel" for="f_city"><span data-i18n="city">City / town where you live</span> <span class="req">*</span></label>
+        <input type="text" id="f_city" autocomplete="address-level2">
+        <div class="err-msg" data-i18n="errRequired">This field is required.</div>
+      </div>
+
+    </div>
+    <div class="card">
+
+      <!-- 5. Age 18 -->
+      <div class="field" data-field="age18">
+        <label class="flabel"><span data-i18n="age18">Are you at least 18 years old?</span> <span class="req">*</span></label>
+        <div class="seg" data-seg="age18">
+          <button type="button" data-val="Yes" data-i18n="yes">Yes</button>
+          <button type="button" data-val="No" data-i18n="no">No</button>
+        </div>
+        <div class="err-msg" data-i18n="errRequired">This field is required.</div>
+      </div>
+
+      <!-- 6. Work authorization -->
+      <div class="field" data-field="workAuth">
+        <label class="flabel"><span data-i18n="workAuth">Are you legally authorized to work in the United States?</span> <span class="req">*</span></label>
+        <div class="seg" data-seg="workAuth">
+          <button type="button" data-val="Yes" data-i18n="yes">Yes</button>
+          <button type="button" data-val="No" data-i18n="no">No</button>
+        </div>
+        <div class="err-msg" data-i18n="errRequired">This field is required.</div>
+      </div>
+
+      <!-- 7. Driver's license -->
+      <div class="field" data-field="license">
+        <label class="flabel"><span data-i18n="license">Do you have a valid driver's license?</span> <span class="req">*</span></label>
+        <div class="seg" data-seg="license">
+          <button type="button" data-val="Yes" data-i18n="yes">Yes</button>
+          <button type="button" data-val="No" data-i18n="no">No</button>
+        </div>
+        <div class="err-msg" data-i18n="errRequired">This field is required.</div>
+      </div>
+
+      <!-- 8. Forklift -->
+      <div class="field" data-field="forklift">
+        <label class="flabel"><span data-i18n="forklift">Forklift experience?</span></label>
+        <div class="seg" data-seg="forklift">
+          <button type="button" data-val="Yes" data-i18n="yes">Yes</button>
+          <button type="button" data-val="No" data-i18n="no">No</button>
+        </div>
+      </div>
+
+    </div>
+    <div class="card">
+
+      <!-- 9. Experience -->
+      <div class="field" data-field="experience">
+        <label class="flabel" for="f_expLevel"><span data-i18n="experience">Moving / packing / warehouse experience</span></label>
+        <select id="f_expLevel">
+          <option value="None" data-i18n="expNone">None</option>
+          <option value="Some" data-i18n="expSome">Some</option>
+          <option value="Experienced" data-i18n="expExperienced">Experienced</option>
+        </select>
+      </div>
+      <div class="field" data-field="experienceNotes">
+        <label class="flabel" for="f_expNotes"><span data-i18n="expNotes">Tell us briefly</span> <span class="hint" data-i18n="optional">(optional)</span></label>
+        <input type="text" id="f_expNotes">
+      </div>
+
+    </div>
+    <div class="card">
+
+      <!-- 10. Schedule -->
+      <div class="field" data-field="scheduleOK">
+        <label class="flabel"><span data-i18n="scheduleOK">Can you work Monday–Friday, 8:00 AM–4:00 PM?</span> <span class="req">*</span></label>
+        <div class="seg" data-seg="scheduleOK">
+          <button type="button" data-val="Yes" data-i18n="yes">Yes</button>
+          <button type="button" data-val="No" data-i18n="no">No</button>
+        </div>
+        <div class="err-msg" data-i18n="errRequired">This field is required.</div>
+      </div>
+
+      <!-- 11. Start date -->
+      <div class="field" data-field="startDate">
+        <label class="flabel" for="f_start"><span data-i18n="startDate">Earliest date you can start</span> <span class="hint" data-i18n="optional">(optional)</span></label>
+        <input type="date" id="f_start">
+      </div>
+
+      <!-- 12. Referral source -->
+      <div class="field" data-field="referralSource">
+        <label class="flabel" for="f_ref"><span data-i18n="referral">How did you hear about us?</span></label>
+        <select id="f_ref">
+          <option value="Facebook">Facebook</option>
+          <option value="Flyer" data-i18n="refFlyer">Flyer</option>
+          <option value="Someone who works here" data-i18n="refEmployee">Someone who works here</option>
+          <option value="Google">Google</option>
+          <option value="Other" data-i18n="refOther">Other</option>
+        </select>
+      </div>
+
+      <!-- 13. Notes -->
+      <div class="field" data-field="notes">
+        <label class="flabel" for="f_notes"><span data-i18n="notes">Anything else we should know?</span> <span class="hint" data-i18n="optional">(optional)</span></label>
+        <textarea id="f_notes" rows="3"></textarea>
+      </div>
+
+      <!-- Honeypot (bots only) -->
+      <div class="hp" aria-hidden="true">
+        <label>Company website <input type="text" id="company_website" name="company_website" autocomplete="off" tabindex="-1"></label>
+      </div>
+
+      <!-- 14. Certification -->
+      <div class="field" data-field="cert">
+        <label class="cert">
+          <input type="checkbox" id="f_cert">
+          <span data-i18n="cert">I certify the information I provided is true and complete, and I agree to be contacted about this application.</span>
+        </label>
+        <div class="err-msg" data-i18n="errCert">Please check this box to submit your application.</div>
+      </div>
+
+    </div>
+
+    <div class="submit-bar">
+      <button type="submit" id="submitBtn" data-i18n="submit">Submit application</button>
+      <div class="error-banner" id="errorBanner"></div>
+    </div>
+  </form>
+
+  <!-- Thank-you screen -->
+  <div class="card thanks" id="thanksCard" hidden>
+    <img src="logo.jpg" alt="Blue Kangaroo Packoutz">
+    <h2 data-i18n="thanksTitle">Application received</h2>
+    <p data-i18n="thanksBody">Thank you for applying. We review every application, and if your experience fits an open position, we will call or text you to talk about next steps.</p>
+    <p class="callline"><span data-i18n="thanksCall">Need to reach us?</span> <a href="tel:+14434550667">443-455-0667</a></p>
+  </div>
+
+  <footer>
+    <div class="terr">Blue Kangaroo Packoutz — Baltimore and Metro DC</div>
+    <div data-i18n="footerProp">This website is the property of Maxwell Enterprises Corp, LLC.</div>
+    <div>2070 Lord Baltimore Dr, Windsor Mill, MD 21244 · 443-471-8900</div>
+  </footer>
+
+</div>
+
+<script>
+"use strict";
+/* ============================================================
+   CONFIG — after deploying bridge.gs as a web app, paste its
+   exec URL between the quotes below.
+   ============================================================ */
+const BRIDGE_URL = "https://script.google.com/macros/s/AKfycbwmlf_q9gPax0DWSWy-3W2pS5KBrENhKiUuQVDF_8oEah1i0YeLlRlbr70TnRKAhqwJzg/exec";
+const POSITION = "Crew Member"; // This form is for Crew Member applicants only.
+
+const I18N = {
+  en: {
+    tagline: "Job Application",
+    h1: "Work with us",
+    intro: "We pack, move, clean, and store the contents of homes after water, fire, and mold damage — and deliver everything back when the home is ready. Fill out this short application and we will be in touch.",
+    pay: "Starting at $18/hour · Mon–Fri, 8:00 AM–4:00 PM",
+    posFixed: "Position: Crew Member",
+    name: "Full name",
+    phone: "Phone",
+    email: "Email",
+    city: "City / town where you live",
+    age18: "Are you at least 18 years old?",
+    workAuth: "Are you legally authorized to work in the United States?",
+    license: "Do you have a valid driver's license?",
+    forklift: "Forklift experience?",
+    experience: "Moving / packing / warehouse experience",
+    expNone: "None", expSome: "Some", expExperienced: "Experienced",
+    expNotes: "Tell us briefly",
+    scheduleOK: "Can you work Monday–Friday, 8:00 AM–4:00 PM?",
+    startDate: "Earliest date you can start",
+    referral: "How did you hear about us?",
+    refFlyer: "Flyer", refEmployee: "Someone who works here", refOther: "Other",
+    notes: "Anything else we should know?",
+    optional: "(optional)",
+    yes: "Yes", no: "No",
+    cert: "I certify the information I provided is true and complete, and I agree to be contacted about this application.",
+    submit: "Submit application",
+    sending: "Sending…",
+    errRequired: "This field is required.",
+    errPhone: "Please enter a valid phone number (at least 10 digits).",
+    errEmail: "That email address does not look complete.",
+    errCert: "Please check this box to submit your application.",
+    errBanner: "Something went wrong and your application was not sent. Please try again, or call or text us at 443-455-0667.",
+    thanksTitle: "Application received",
+    thanksBody: "Thank you for applying. We review every application, and if your experience fits an open position, we will call or text you to talk about next steps.",
+    thanksCall: "Need to reach us?",
+    footerProp: "This website is the property of Maxwell Enterprises Corp, LLC."
+  },
+  es: {
+    tagline: "Solicitud de empleo",
+    h1: "Trabaja con nosotros",
+    intro: "Empacamos, mudamos, limpiamos y almacenamos el contenido de las casas después de daños por agua, fuego y moho — y lo devolvemos todo cuando la casa está lista. Completa esta solicitud corta y nos pondremos en contacto contigo.",
+    pay: "Pago inicial: $18/hora · Lun–Vie, 8:00 AM–4:00 PM",
+    posFixed: "Puesto: Miembro del equipo de empaque",
+    name: "Nombre completo",
+    phone: "Teléfono",
+    email: "Correo electrónico",
+    city: "Ciudad o pueblo donde vive",
+    age18: "¿Tiene al menos 18 años?",
+    workAuth: "¿Está autorizado legalmente para trabajar en los Estados Unidos?",
+    license: "¿Tiene una licencia de conducir válida?",
+    forklift: "¿Experiencia con montacargas?",
+    experience: "Experiencia en mudanzas / empaque / almacén",
+    expNone: "Ninguna", expSome: "Algo", expExperienced: "Con experiencia",
+    expNotes: "Cuéntenos brevemente",
+    scheduleOK: "¿Puede trabajar de lunes a viernes, 8:00 AM–4:00 PM?",
+    startDate: "Fecha más temprana en que puede empezar",
+    referral: "¿Cómo se enteró de nosotros?",
+    refFlyer: "Volante", refEmployee: "Alguien que trabaja aquí", refOther: "Otro",
+    notes: "¿Algo más que debamos saber?",
+    optional: "(opcional)",
+    yes: "Sí", no: "No",
+    cert: "Certifico que la información que proporcioné es verdadera y completa, y acepto ser contactado sobre esta solicitud.",
+    submit: "Enviar solicitud",
+    sending: "Enviando…",
+    errRequired: "Este campo es obligatorio.",
+    errPhone: "Ingrese un número de teléfono válido (al menos 10 dígitos).",
+    errEmail: "Ese correo electrónico no parece completo.",
+    errCert: "Marque esta casilla para enviar su solicitud.",
+    errBanner: "Algo salió mal y su solicitud no se envió. Inténtelo de nuevo, o llámenos o envíenos un mensaje de texto al 443-455-0667.",
+    thanksTitle: "Solicitud recibida",
+    thanksBody: "Gracias por su solicitud. Revisamos cada solicitud y, si su experiencia encaja con un puesto disponible, lo llamaremos o le enviaremos un mensaje de texto para hablar de los próximos pasos.",
+    thanksCall: "¿Necesita contactarnos?",
+    footerProp: "Este sitio web es propiedad de Maxwell Enterprises Corp, LLC."
+  }
+};
+
+let lang = localStorage.getItem("bk_apply_lang") || "en";
+if (!I18N[lang]) lang = "en";
+const segState = { age18: "", workAuth: "", license: "", forklift: "", scheduleOK: "" };
+
+function applyLang() {
+  const dict = I18N[lang];
+  document.documentElement.lang = lang;
+  document.querySelectorAll("[data-i18n]").forEach(function (el) {
+    const key = el.getAttribute("data-i18n");
+    if (dict[key] !== undefined) el.textContent = dict[key];
+  });
+  document.getElementById("langEn").classList.toggle("active", lang === "en");
+  document.getElementById("langEs").classList.toggle("active", lang === "es");
+  localStorage.setItem("bk_apply_lang", lang);
+}
+document.getElementById("langEn").addEventListener("click", function () { lang = "en"; applyLang(); });
+document.getElementById("langEs").addEventListener("click", function () { lang = "es"; applyLang(); });
+
+/* Segmented Yes/No groups */
+document.querySelectorAll(".seg").forEach(function (seg) {
+  const field = seg.getAttribute("data-seg");
+  seg.querySelectorAll("button").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      segState[field] = btn.getAttribute("data-val");
+      seg.querySelectorAll("button").forEach(function (b) { b.classList.toggle("selected", b === btn); });
+      clearInvalid(field);
+    });
+  });
+});
+
+function fieldWrap(name) { return document.querySelector('[data-field="' + name + '"]'); }
+function setInvalid(name, bad) { const w = fieldWrap(name); if (w) w.classList.toggle("invalid", !!bad); }
+function clearInvalid(name) { setInvalid(name, false); }
+["f_name", "f_phone", "f_email", "f_city"].forEach(function (id) {
+  const el = document.getElementById(id);
+  el.addEventListener("input", function () { clearInvalid(el.id.replace("f_", "")); });
+});
+document.getElementById("f_cert").addEventListener("change", function () { clearInvalid("cert"); });
+
+function validate(p) {
+  let ok = true, firstBad = null;
+  function fail(name) { setInvalid(name, true); ok = false; if (!firstBad) firstBad = name; }
+  if (!p.name) fail("name");
+  if (p.phone.replace(/\D/g, "").length < 10) fail("phone");
+  if (p.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(p.email)) fail("email");
+  if (!p.city) fail("city");
+  if (!p.age18) fail("age18");
+  if (!p.workAuth) fail("workAuth");
+  if (!p.license) fail("license");
+  if (!p.scheduleOK) fail("scheduleOK");
+  if (!document.getElementById("f_cert").checked) fail("cert");
+  if (firstBad) {
+    const w = fieldWrap(firstBad);
+    if (w) w.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
+  return ok;
+}
+
+function collect() {
+  return {
+    ts: new Date().toISOString(),
+    lang: lang,
+    name: document.getElementById("f_name").value.trim(),
+    phone: document.getElementById("f_phone").value.trim(),
+    email: document.getElementById("f_email").value.trim(),
+    city: document.getElementById("f_city").value.trim(),
+    position: POSITION,
+    age18: segState.age18,
+    workAuth: segState.workAuth,
+    license: segState.license,
+    forklift: segState.forklift,
+    experience: document.getElementById("f_expLevel").value,
+    experienceNotes: document.getElementById("f_expNotes").value.trim(),
+    scheduleOK: segState.scheduleOK,
+    startDate: document.getElementById("f_start").value,
+    referralSource: document.getElementById("f_ref").value,
+    notes: document.getElementById("f_notes").value.trim(),
+    company_website: document.getElementById("company_website").value
+  };
+}
+
+function showThanks() {
+  document.getElementById("appForm").hidden = true;
+  const t = document.getElementById("thanksCard");
+  t.hidden = false;
+  t.scrollIntoView({ behavior: "smooth", block: "center" });
+}
+
+document.getElementById("appForm").addEventListener("submit", function (ev) {
+  ev.preventDefault();
+  const banner = document.getElementById("errorBanner");
+  banner.classList.remove("show");
+  const payload = collect();
+
+  /* Honeypot: a real person never fills this — fake success, send nothing. */
+  if (payload.company_website) { showThanks(); return; }
+
+  if (!validate(payload)) return;
+
+  const btn = document.getElementById("submitBtn");
+  btn.disabled = true;
+  btn.textContent = I18N[lang].sending;
+
+  fetch(BRIDGE_URL, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify(payload)
+  })
+    .then(function (r) { return r.json(); })
+    .then(function (res) {
+      if (res && res.ok) { showThanks(); }
+      else { throw new Error("bridge_not_ok"); }
+    })
+    .catch(function () {
+      banner.textContent = I18N[lang].errBanner;
+      banner.classList.add("show");
+      btn.disabled = false;
+      btn.textContent = I18N[lang].submit;
+      banner.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+});
+
+applyLang();
+</script>
+</body>
+</html>
