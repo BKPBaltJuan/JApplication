@@ -162,13 +162,16 @@
   footer .terr{color:var(--heading);}
 
   /* Sticky white top bar: hairline bottom border, subtle shadow,
-     compact logo left, company name + EN/ES toggle right of it. */
+     full logo left, EN/ES toggle right of it — no typed company
+     name in the bar; the DBA is signed in the footer. */
   header{
     border-bottom:1px solid var(--line);
     box-shadow:0 1px 6px rgba(22,40,60,.06);
   }
-  .header-inner{max-width:900px; padding:10px 20px;}
+  .header-inner{max-width:900px; padding:10px 20px; justify-content:space-between;}
   .header-inner img{width:auto; height:46px; border-radius:0;}
+  .header-inner picture{display:flex; align-items:center;}
+  .header-inner picture img{height:44px; width:auto; max-width:250px;}
   .header-title .name{
     font-family:var(--condensed); font-size:19px; letter-spacing:.02em;
     color:var(--heading);
@@ -373,11 +376,7 @@
 
 <header>
   <div class="header-inner">
-    <img src="logo.jpg" alt="Blue Kangaroo Packoutz Baltimore & Metro D.C.">
-    <div class="header-title">
-      <div class="name">Blue Kangaroo Packoutz Baltimore & Metro D.C.™</div>
-      <div class="sub" data-i18n="tagline">Job Application</div>
-    </div>
+    <picture><source media="(prefers-color-scheme: dark)" srcset="logo-full-dark.png"><img src="logo-full.jpg" alt="Blue Kangaroo Packoutz Baltimore & Metro D.C."></picture>
     <div class="lang-toggle" role="group" aria-label="Language">
       <button type="button" id="langEn">EN</button>
       <button type="button" id="langEs">ES</button>
